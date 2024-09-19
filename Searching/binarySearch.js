@@ -19,3 +19,7 @@ function binarySearch(arr,target) {
 let arr =[1,2,3,4,5,65,66,77]
 console.log(binarySearch(arr,66));  
 // output 6
+
+// Time Complexity of Binary Search:
+// Best Case              : (O(1)) when the target element is at the middle on the first comparison
+// Average and Worst Case : (O(log n)
