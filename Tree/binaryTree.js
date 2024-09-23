@@ -177,6 +177,14 @@ class BinarySearchTree {
         traverse(this.root)
         return closest
     }
+
+
+    countNodes(root){
+        if(!root){
+            return 0
+        }
+        return 1 + this.countNodes(root.left) + this.countNodes(root.right)
+    }
 }
 
 // Test the implementation
@@ -199,5 +207,8 @@ tree.delete(30);
 console.log("Level Order Traversal (After Deletion):");
 tree.levelOrder();  // Level-order traversal after deletion
 console.log(tree.isBST(tree.root));
-let target = 16;
+let target = 8;
 console.log("Closest Value to", target, ":", tree.findClosest(target));
+
+
+console.log("Total number of nodes in the tree:", tree.countNodes(tree.root));
