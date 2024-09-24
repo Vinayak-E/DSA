@@ -24,6 +24,15 @@ class MinBinaryHeap{
             idx = parentIdx
         }
     }
+
+    search(value){
+        for(let val of this.values){
+            if(val == value){
+                return true
+            }
+        }
+        return false
+    }
 }
 
 
@@ -34,3 +43,5 @@ heap.insert(55)
 heap.insert(5)
 heap.insert(555)
 console.log(heap);
+
+console.log(heap.search(5555));

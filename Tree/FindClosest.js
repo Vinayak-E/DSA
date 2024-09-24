@@ -123,6 +123,27 @@ class BinarySearchTree{
                 
       return root
      }
+
+
+     findClosest(target){
+        let closest = this.root.value
+        function traverse(root){
+            if(!root){
+                return null
+            }
+            if(Math.abs(root.value - target) < Math.abs(closest - target)){
+                closest = root.value
+            }
+            if(target < root.value){
+                return traverse(root.left)
+            }else{
+                return traverse(root.right)
+            }
+        } 
+        traverse(this.root)
+        return closest
+
+     }
 }
 
 
@@ -137,4 +158,4 @@ tree.insert(8)
 
 tree.delete(7)
 tree.levelOrder()
-
+console.log("The closest value to target is:",(tree.findClosest(6)));

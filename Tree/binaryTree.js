@@ -185,6 +185,82 @@ class BinarySearchTree {
         }
         return 1 + this.countNodes(root.left) + this.countNodes(root.right)
     }
+
+    findMax(){
+        if(this.isEmpty()){
+            return null
+        }
+        let current = this.root
+        while(current.right){
+            current = current.right
+        }
+        return current.value
+    }
+
+    findMin(){
+        if(this.isEmpty()){
+            return null
+        }
+        let current = this.root
+        while(current.left){
+            current = current.left
+        }
+        return current.value
+    }
+
+    secondLargest(){
+        if(this.isEmpty() || (!this.root.right && !this.root.left)){
+            return null
+
+        }
+        let current = this.root
+        let parent = null
+        while(current.right){
+            parent = current
+            current = current.right
+        }
+
+        if(current.left){
+            return this.max(current.left)
+        }
+        return parent.value
+    }
+
+    secondSmallest(){
+        if(this.isEmpty() || (!this.root.right && !this.root.left)){
+            return null
+        }
+        let current = this.root
+        let parent = null
+        while(current.left){
+            parent = current
+            current = current.left
+        }
+        if(current.right){
+            return this.min(current.right)
+        }
+        return parent.value
+    }
+     
+    findHeight(root){
+        if(root === null){
+            return -1
+        }
+        let leftHeight = this.findHeight(root.left) 
+        let rightHeight = this.findHeight(root.right)
+        return 1 + Math.max(leftHeight,rightHeight) 
+   }
+
+   countLeafNodes(root){
+    if(root == null){
+        return 0
+    }
+    if(root.right == null && root.left ==null){
+        return 1
+    }
+    return this.countLeafNodes(root.left) + this.countLeafNodes(root.right);
+   }
+   
 }
 
 // Test the implementation
@@ -192,6 +268,7 @@ let tree = new BinarySearchTree();
 
 tree.insert(5);
 tree.insert(10);
+tree.insert(4);
 tree.insert(15);
 tree.insert(20);
 tree.insert(40);
@@ -212,3 +289,13 @@ console.log("Closest Value to", target, ":", tree.findClosest(target));
 
 
 console.log("Total number of nodes in the tree:", tree.countNodes(tree.root));
+
+console.log("The largest element in the tree is:",tree.findMax());
+console.log("The smallest element in the tree is:",tree.findMin());
+console.log("The second largest element in the tree is:", tree.secondLargest());
+console.log("The second Smallest element in the tree is:", tree.secondSmallest());
+let height = tree.findHeight(tree.root);
+console.log("The height of the tree is:", height);
+
+
+console.log("Total number of leaf nodes in the tree:", tree.countLeafNodes(tree.root));
