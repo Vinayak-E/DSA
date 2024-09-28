@@ -27,7 +27,7 @@ class BinarySearchTree {
 
     insertNode(root, newNode) {
         if (newNode.value < root.value) {
-            if (root.left === null) {
+            if (root.left === null) {           
                 root.left = newNode;
             } else {
                 this.insertNode(root.left, newNode);
@@ -299,3 +299,4 @@ console.log("The height of the tree is:", height);
 
 
 console.log("Total number of leaf nodes in the tree:", tree.countLeafNodes(tree.root));
+ 

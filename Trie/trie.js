@@ -82,6 +82,15 @@ class Trie {
         }
         return words
     }
+
+    print(node = this.root, word = "") {
+        if (node.endWord) {
+            console.log(word); 
+        }
+        for (let char in node.children) {
+            this.print(node.children[char], word + char); 
+        }
+    }
    
 }
 
@@ -94,4 +103,5 @@ trie.insert("auto")
 console.log(trie.search("cat"));
 
 trie.delete("cat")
-console.log(trie.autoComplete("ca"));
+
+trie.print()

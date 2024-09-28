@@ -1,165 +1,89 @@
-class Node {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
+class Graph{
+    constructor(){
+        this.adjacentList ={}
+    }
+
+
+    addVertex(vertex){
+        if(!this.adjacentList[vertex]){
+            this.adjacentList[vertex] =new Set()
+        }
+    }
+
+    addEdge(vertex1,vertex2){
+        if(!this.adjacentList[vertex1]){
+            this.addVertex(vertex1)
+        }
+
+        if(!this.adjacentList[vertex2]){
+            this.addVertex(vertex2)
+        }
+
+        this.adjacentList[vertex1].add(vertex2)
+        
+        this.adjacentList[vertex2].add(vertex1)
+    }
+
+    display(){
+        for(let vertex in this.adjacentList){
+            console.log(vertex + "->" + [...this.adjacentList[vertex]]);
+
+        }
+    }
+
+    hasedge(vertex1,vertex2){
+        return this.adjacentList[vertex1].has(vertex2) && this.adjacentList[vertex2].has(vertex1)
+    }
+
+    removeEdge(vertex1,vertex2){
+        this.adjacentList[vertex1].delete(vertex2)
+        this.adjacentList[vertex2].delete(vertex1)
+    }
+
+    removeVertex(vertex){
+        if(!this.adjacentList[vertex]){
+            return
+        }
+
+        for(let adjacentVertex of this.adjacentList[vertex]){
+            this.removeEdge(vertex,adjacentVertex)
+        }
+
+        delete this.adjacentList[vertex]
+    }
+
+    bfs(startVertex){
+        let result = []
+        let visited = new Set()
+        let queue = [startVertex]
+
+        visited.add(startVertex)
+
+        while(queue.length){
+            let currentVertex = queue.shift()
+            result.push(currentVertex)
+
+            for(let neighbor of this.adjacentList[currentVertex]){
+            if(!visited.has(neighbor)){
+                visited.add(neighbor)
+                queue.push(neighbor)
+            }
+            }
+        }
+        return result
     }
 }
 
-class BinarySearchTree {
-    constructor() {
-        this.root = null;
-    }
+let graph =new Graph()
+graph.addVertex("A")
+graph.addVertex("B")
+graph.addVertex("C")
+graph.addEdge("A","B")
+graph.addEdge("C","B")
+graph.addEdge("D","B")
+graph.addEdge("D","B")
+console.log(graph.hasedge("D","A"));
 
-    isEmpty() {
-        return this.root === null;
-    }
+graph.display()
 
-    insert(value) {
-        const newNode = new Node(value);
-
-        if (this.isEmpty()) {
-            this.root = newNode;
-        } else {
-            this.insertNode(this.root, newNode);
-        }
-    }
-
-    insertNode(root, newNode) {
-        if (newNode.value < root.value) {
-            if (root.left === null) {
-                root.left = newNode;
-            } else {
-                this.insertNode(root.left, newNode);
-            }
-        } else {
-            if (root.right === null) {
-                root.right = newNode;
-            } else {
-                this.insertNode(root.right, newNode);
-            }
-        }
-    }
-
-    search(root, value) {
-        if (!root) {
-            return false;
-        } else if (value === root.value) {
-            return true;
-        } else if (value < root.value) {
-            return this.search(root.left, value);
-        } else {
-            return this.search(root.right, value);
-        }
-    }
-
-    min(root) {
-        if (!root.left) {
-            return root.value; 
-        } else {
-            return this.min(root.left);
-        }
-    }
-
-    max(root) {
-        if (!root.right) {
-            return root.value;  
-        } else {
-            return this.max(root.right);
-        }
-    }
-
-    preOrder(root) {
-        if (root) {
-            console.log(root.value);
-            this.preOrder(root.left);
-            this.preOrder(root.right);
-        }
-    }
-
-    inOrder(root) {
-        if (root) {
-            this.inOrder(root.left);
-            console.log(root.value);
-            this.inOrder(root.right);
-        }
-    }
-
-    postOrder(root) {
-        if (root) {
-            this.postOrder(root.left);
-            this.postOrder(root.right);
-            console.log(root.value);
-        }
-    }
-
-    levelOrder() {
-        let queue = [];
-        queue.push(this.root);
-        while (queue.length) {
-            let curr = queue.shift();
-            console.log(curr.value);
-            if (curr.left) {
-                queue.push(curr.left);
-            }
-            if (curr.right) {
-                queue.push(curr.right);
-            }
-        }
-    }
-
-    delete(value) {
-        this.root = this.deleteNode(this.root, value);
-    }
-
-    deleteNode(root, value) {
-        if (root === null) {
-            return root;
-        }
-
-        if (value < root.value) {
-            // Fix recursive call
-            root.left = this.deleteNode(root.left, value);
-        } else if (value > root.value) {
-            // Fix recursive call
-            root.right = this.deleteNode(root.right, value);
-        } else {
-            // Node found
-
-            // Case 1: No children
-            if (!root.left && !root.right) {
-                return null;
-            }
-
-            // Case 2: One child
-            if (!root.left) {
-                return root.right;
-            } else if (!root.right) {
-                return root.left;
-            }
-
-            root.value = this.min(root.right);
-            root.right = this.deleteNode(root.right, root.value);
-        }
-        return root;
-    }
-}
-
-// Test the code
-let bst = new BinarySearchTree();
-bst.insert(5);
-bst.insert(10);
-bst.insert(15);
-bst.insert(20);
-bst.insert(40);
-bst.insert(30);
-bst.insert(35);
-bst.insert(25);
-
-console.log("Before deletion:");
-bst.levelOrder();
-
-bst.delete(30);
-
-console.log("After deletion:");
-bst.levelOrder();
+console.log(graph.bfs("B"));
