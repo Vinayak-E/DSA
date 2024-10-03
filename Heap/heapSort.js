@@ -64,7 +64,7 @@ class MaxHeap{
         while (this.values.length > 0) {
             sortedArray.push(this.removeMax());
         }
-        return sortedArray.reverse(); 
+        return sortedArray
     }
 }
 
