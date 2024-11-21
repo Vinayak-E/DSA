@@ -111,6 +111,19 @@ class LinkedList{
     }
   }
 
+  //Finding Middle Using Slow and Fast Method
+    middle(){
+    let slow = this.head
+    let fast = this.head.next
+    
+    while(fast && fast.next){
+        slow = slow.next
+        fast = fast.next.next
+    }
+    console.log(slow.value)
+}
+
+
   search(value){
     if(this.isEmpty()){
       return console.log("The list is empty");
