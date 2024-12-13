@@ -90,6 +90,37 @@ class Graph {
         dfsHelper(startVertex);
         return result;
     }
+
+    dfsIterative(start){
+        let visited = new Set()
+         let stack = [start]
+
+         while(stack.length){
+            let vertex = stack.pop()
+            if(!visited.has(vertex)){
+               console.log(vertex);
+               visited.add(vertex)
+            }
+            for(let neighbor of this.adjacencyList[vertex]){
+                if(!visited.has(neighbor)){
+                    stack.push(neighbor)
+                  
+                }
+            }
+         }
+    }
+
+
+
+    dfsRecursive(vertex,visited =new Set()){
+        console.log(vertex)
+        visited.add(vertex)
+        for(let neighbor of this.adjacencyList[vertex]){
+           if(! visited.has(neighbor)){
+            this.dfsRecursive(neighbor,visited)
+           }
+        }
+    }
 }
 
 let graph = new Graph()
@@ -101,6 +132,7 @@ graph.addEdge("A", "B")
 graph.addEdge("B", "C")
 graph.addEdge("C", "D")
 graph.addEdge("A", "D")
-
-console.log("BFS starting from vertex A:", graph.bfs("A"))
-console.log("DFS starting from vertex A:", graph.dfs("A"))
+graph.display()
+// console.log("BFS starting from vertex A:", graph.bfs("A"))
+console.log("DFS starting from vertex A:")
+graph.dfsIterative("A")
